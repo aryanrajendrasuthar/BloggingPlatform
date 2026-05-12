@@ -15,7 +15,7 @@ const escapeXml = (str: string) =>
 router.get('/rss', async (_req: Request, res: Response) => {
   const posts = await prisma.post.findMany({
     where: { status: 'PUBLISHED' },
-    include: { author: { select: { name: true, email: true } }, tags: true },
+    include: { author: { select: { name: true } }, tags: true },
     orderBy: { publishedAt: 'desc' },
     take: 20,
   });
@@ -32,7 +32,7 @@ router.get('/rss', async (_req: Request, res: Response) => {
       <guid isPermaLink="true">${siteUrl}/blog/${p.slug}</guid>
       <description>${escapeXml(p.excerpt || '')}</description>
       <pubDate>${p.publishedAt ? new Date(p.publishedAt).toUTCString() : now}</pubDate>
-      <author>${escapeXml(p.author.email)} (${escapeXml(p.author.name)})</author>
+      <author>${escapeXml(p.author.name)}</author>
       ${p.tags.map((t) => `<category>${escapeXml(t.name)}</category>`).join('')}
     </item>`
     )

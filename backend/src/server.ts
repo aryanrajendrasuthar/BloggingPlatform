@@ -43,16 +43,20 @@ const start = async () => {
   try {
     await prisma.$connect();
     console.log('PostgreSQL connected via Prisma');
-
-    await redis.connect();
-
-    app.listen(PORT, () => {
-      console.log(`Backend running on http://localhost:${PORT}`);
-    });
   } catch (err) {
-    console.error('Failed to start server:', err);
+    console.error('Failed to connect to PostgreSQL:', err);
     process.exit(1);
   }
+
+  try {
+    await redis.connect();
+  } catch (err) {
+    console.warn('Redis unavailable — view counters and caching will be disabled:', (err as Error).message);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`Backend running on http://localhost:${PORT}`);
+  });
 };
 
 start();

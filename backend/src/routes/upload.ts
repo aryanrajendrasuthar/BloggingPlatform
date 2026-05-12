@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { authenticate } from '../middleware/auth';
+import { Router, Request, Response, NextFunction } from 'express';
+import { authenticate, requireAuthor } from '../middleware/auth';
 import { uploadToS3 } from '../services/s3Service';
 
 const router = Router();
@@ -7,7 +7,8 @@ const router = Router();
 router.post(
   '/image',
   authenticate,
-  (req: Request, res: Response, next: ReturnType<typeof router.use>) => {
+  requireAuthor,
+  (req: Request, res: Response, next: NextFunction) => {
     const upload = uploadToS3.single('image');
     upload(req, res, (err) => {
       if (err) {

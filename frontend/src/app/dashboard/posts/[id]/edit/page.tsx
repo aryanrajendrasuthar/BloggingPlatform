@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/components/Layout/AuthProvider';
 import { postsApi, taxonomyApi, uploadApi } from '@/lib/api';
-import { Category, Post } from '@/types';
+import { Category } from '@/types';
 import { TiptapEditor } from '@/components/Tiptap/Editor';
 import toast from 'react-hot-toast';
 import { ArrowLeft, Image as ImageIcon, Loader2, X } from 'lucide-react';
@@ -37,7 +37,7 @@ export default function EditPostPage() {
     if (user.role === 'READER') { router.push('/blog'); return; }
 
     Promise.all([
-      postsApi.getBySlug(id, token!).catch(() => null),
+      postsApi.getMy(token!).then((posts) => posts.find((p) => p.id === id) ?? null).catch(() => null),
       taxonomyApi.getCategories().catch(() => [] as Category[]),
     ]).then(([post, cats]) => {
       if (!post) { toast.error('Post not found'); router.push('/dashboard'); return; }
