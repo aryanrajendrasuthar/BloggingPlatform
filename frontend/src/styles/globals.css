@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-white text-brand-900 font-sans;
+  }
+
+  ::selection {
+    @apply bg-accent-light text-accent;
+  }
+}
+
+@layer components {
+  /* Tiptap editor */
+  .tiptap-editor {
+    @apply font-serif text-lg leading-relaxed text-brand-800 outline-none min-h-[400px];
+  }
+
+  .tiptap-editor p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply text-brand-400 pointer-events-none float-left h-0;
+  }
+
+  .tiptap-editor h1 { @apply font-sans text-3xl font-bold text-brand-900 mt-8 mb-4; }
+  .tiptap-editor h2 { @apply font-sans text-2xl font-bold text-brand-900 mt-6 mb-3; }
+  .tiptap-editor h3 { @apply font-sans text-xl font-semibold text-brand-900 mt-5 mb-2; }
+  .tiptap-editor p  { @apply mb-4; }
+  .tiptap-editor blockquote {
+    @apply border-l-4 border-accent pl-6 italic text-brand-600 my-6;
+  }
+  .tiptap-editor ul { @apply list-disc pl-6 mb-4 space-y-1; }
+  .tiptap-editor ol { @apply list-decimal pl-6 mb-4 space-y-1; }
+  .tiptap-editor a  { @apply text-accent underline; }
+  .tiptap-editor code {
+    @apply font-mono bg-brand-100 text-brand-800 px-1.5 py-0.5 rounded text-sm;
+  }
+  .tiptap-editor pre {
+    @apply bg-brand-900 text-brand-100 rounded-xl p-4 my-6 overflow-x-auto font-mono text-sm;
+  }
+  .tiptap-editor pre code { @apply bg-transparent text-inherit p-0; }
+  .tiptap-editor hr { @apply my-8 border-brand-200; }
+  .tiptap-editor img { @apply rounded-xl max-w-full my-6 mx-auto; }
+
+  /* Card hover */
+  .post-card {
+    @apply transition-transform duration-200 hover:-translate-y-1;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply animate-pulse bg-brand-200 rounded;
+  }
+}
